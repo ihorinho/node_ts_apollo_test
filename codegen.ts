@@ -3,9 +3,9 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "./dist/schema.graphql",
+  schema: "./schema.graphql",
   generates: {
-    "src/resolver-types.ts": {
+    "src/resolvers/resolver-types.ts": {
       plugins: ["typescript", "typescript-resolvers"]
     },
     "./graphql.schema.json": {
@@ -14,7 +14,7 @@ const config: CodegenConfig = {
   },
   config: {
     useIndexSignature: true,
-    contextType: "./app#MyContext"
+    contextType: "../app#MyContext"
   }
 };
 

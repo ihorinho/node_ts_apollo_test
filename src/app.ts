@@ -2,7 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { readFileSync } from "fs";
 import * as mongoose from "mongoose";
-import { resolvers } from "./resolver.js";
+import resolvers from "./resolvers/index.js";
 import {doAuth} from "./utils/doAuth.js";
 import 'dotenv/config';
 
@@ -11,7 +11,7 @@ export interface MyContext {
     userId?: String,
     userEmail?: String,
 }
-const typeDefs = readFileSync('./dist/schema.graphql', { encoding: 'utf-8' });
+const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 const server = new ApolloServer({
     typeDefs,
     resolvers,
