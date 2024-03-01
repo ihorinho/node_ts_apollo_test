@@ -29,6 +29,16 @@ export type Book = {
   title: Scalars['String']['output'];
 };
 
+export type MagentoProduct = {
+  __typename?: 'MagentoProduct';
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  price: Scalars['Float']['output'];
+  sku: Scalars['String']['output'];
+  type_id: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
@@ -65,8 +75,9 @@ export type PostData = {
 export type Query = {
   __typename?: 'Query';
   books?: Maybe<Array<Maybe<Book>>>;
-  getPost: Post;
+  getPost?: Maybe<Post>;
   getPosts: PostData;
+  getProduct: MagentoProduct;
   getUser: User;
   loginUser: AuthData;
 };
@@ -79,6 +90,11 @@ export type QueryGetPostArgs = {
 
 export type QueryGetPostsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryGetProductArgs = {
+  sku: Scalars['String']['input'];
 };
 
 
@@ -177,8 +193,10 @@ export type ResolversTypes = ResolversObject<{
   AuthData: ResolverTypeWrapper<AuthData>;
   Book: ResolverTypeWrapper<Book>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  MagentoProduct: ResolverTypeWrapper<MagentoProduct>;
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
   PostData: ResolverTypeWrapper<PostData>;
@@ -193,8 +211,10 @@ export type ResolversParentTypes = ResolversObject<{
   AuthData: AuthData;
   Book: Book;
   Boolean: Scalars['Boolean']['output'];
+  Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
+  MagentoProduct: MagentoProduct;
   Mutation: {};
   Post: Post;
   PostData: PostData;
@@ -213,6 +233,16 @@ export type AuthDataResolvers<ContextType = MyContext, ParentType extends Resolv
 export type BookResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = ResolversObject<{
   author?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type MagentoProductResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['MagentoProduct'] = ResolversParentTypes['MagentoProduct']> = ResolversObject<{
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  sku?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -240,8 +270,9 @@ export type PostDataResolvers<ContextType = MyContext, ParentType extends Resolv
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   books?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
-  getPost?: Resolver<ResolversTypes['Post'], ParentType, ContextType, RequireFields<QueryGetPostArgs, 'id'>>;
+  getPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryGetPostArgs, 'id'>>;
   getPosts?: Resolver<ResolversTypes['PostData'], ParentType, ContextType, Partial<QueryGetPostsArgs>>;
+  getProduct?: Resolver<ResolversTypes['MagentoProduct'], ParentType, ContextType, RequireFields<QueryGetProductArgs, 'sku'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   loginUser?: Resolver<ResolversTypes['AuthData'], ParentType, ContextType, RequireFields<QueryLoginUserArgs, 'email' | 'password'>>;
 }>;
@@ -258,6 +289,7 @@ export type UserResolvers<ContextType = MyContext, ParentType extends ResolversP
 export type Resolvers<ContextType = MyContext> = ResolversObject<{
   AuthData?: AuthDataResolvers<ContextType>;
   Book?: BookResolvers<ContextType>;
+  MagentoProduct?: MagentoProductResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   PostData?: PostDataResolvers<ContextType>;

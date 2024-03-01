@@ -5,6 +5,7 @@ import * as mongoose from "mongoose";
 import resolvers from "./resolvers/index.js";
 import { doAuth } from "./utils/doAuth.js";
 import 'dotenv/config';
+import UserApi from "./magentoREST/user-api.js";
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 const server = new ApolloServer({
     typeDefs,
@@ -17,6 +18,9 @@ async function main() {
     const { url } = await startStandaloneServer(server, {
         context: async ({ req }) => ({
             ...await doAuth(req.headers.authorization),
+            dataSources: {
+                userAPI: new UserApi(process.env.MAGENTO_TOKEN || '')
+            }
         }),
         listen: { port: parseInt(process.env.PORT ?? '5000', 10) },
     });

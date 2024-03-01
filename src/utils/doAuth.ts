@@ -18,8 +18,6 @@ export const doAuth = async (bearer?: string) => {
         result.isAuth = true;
         result.userId = decoded.userId;
         result.userEmail = decoded.userEmail;
-
-        console.log(result);
     } catch(err) {
         console.log(err);
     }
